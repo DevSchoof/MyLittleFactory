@@ -15,15 +15,29 @@ ou validada (pytest real) — o LLM nunca decide por si só que terminou.
 from enum import Enum, auto
 
 from agents import CodeAgent, TestAgent, ValidationAgent
-from cli import ask_approval
+from cli import ask_approval, ask_export
 from llm_client import LLMClient
 from run_logger import log_attempt, log_validation
-from test_runner import run_pytest, write_file
+from test_runner import WORKSPACE_DIR, run_pytest, write_file
 
 MAX_CODE_ATTEMPTS = 3
 TEST_FILENAME = "test_solution.py"
 VALIDATION_FILENAME = "test_validation.py"
 SOLUTION_FILENAME = "solution.py"
+
+
+def _extract_failure_summary(pytest_output: str, test_code: str) -> str:
+    """Constrói feedback explícito combinando erros do pytest com os testes."""
+    lines = pytest_output.splitlines()
+    relevant = [l for l in lines if any(k in l for k in ("FAILED", "AssertionError", "assert", "Error", "raise", "E  ", ">>"))]
+    errors = "\n".join(relevant[:40]) or pytest_output[:1000]
+    return (
+        "Sua implementação falhou nos testes. Leia os testes abaixo com atenção "
+        "e observe os valores de entrada e saída esperados — eles são a fonte de "
+        "verdade absoluta, independente do seu conhecimento do domínio.\n\n"
+        f"Testes:\n{test_code}\n\n"
+        f"Erros encontrados:\n{errors}"
+    )
 
 
 class Estado(Enum):
@@ -85,7 +99,7 @@ class TDDOrchestrator:
                 break
 
             print(f"Tentativa {attempt}/{MAX_CODE_ATTEMPTS} falhou nos testes.")
-            feedback = result.output
+            feedback = _extract_failure_summary(result.output, test_code)
         else:
             print("Número máximo de tentativas atingido sem sucesso.")
             self.estado = Estado.FALHOU
@@ -116,6 +130,7 @@ class TDDOrchestrator:
         if validation_result.passed:
             print("Validação independente aprovada. Processo concluído.")
             self.estado = Estado.CONCLUIDO
+            ask_export(WORKSPACE_DIR, SOLUTION_FILENAME, TEST_FILENAME)
         else:
             print("Validação independente reprovou a implementação:")
             print(validation_result.output)

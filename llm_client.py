@@ -6,10 +6,12 @@ Trocar de modelo local para outro endpoint (ou para a API real da OpenAI)
 exige só mudar BASE_URL e, se necessário, adicionar uma chave de API.
 """
 
+import os
+
 import requests
 
 BASE_URL = "http://localhost:8080/v1"
-DEFAULT_MODEL = "local-model"  # nome interno usado pelo RamaLama, ajuste se necessário
+DEFAULT_MODEL = os.environ.get("TDD_MODEL", "local-model")
 TIMEOUT_SECONDS = 120
 
 

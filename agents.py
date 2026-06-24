@@ -39,7 +39,7 @@ class CodeAgent:
         message = f"Testes a satisfazer:\n\n{test_code}"
         if feedback:
             message += f"\n\nFeedback da tentativa anterior:\n{feedback}"
-        return self.llm_client.chat(self.system_prompt, message)
+        return self.llm_client.chat(self.system_prompt, message, temperature=0.1)
 
 
 class ValidationAgent:

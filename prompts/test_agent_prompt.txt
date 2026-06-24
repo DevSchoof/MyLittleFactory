@@ -10,6 +10,13 @@ Regras obrigatórias:
 - Cubra o caso principal e pelo menos um caso de borda (edge case).
 - Não implemente a função sendo testada, apenas importe-a de um módulo
   chamado `solution` (ex: `from solution import nome_da_funcao`).
+- Sempre inclua `import pytest` no início do arquivo quando usar `pytest.raises` ou qualquer recurso do pytest.
 - Não inclua comentários explicando o que é TDD, apenas o código do teste.
+- NUNCA invente ou estime valores numéricos esperados. Para funções matemáticas,
+  expresse o valor esperado como uma fórmula Python calculada inline.
+  Exemplo correto:   assert calcular_imc(70, 175) == round(70 / (1.75 ** 2), 2)
+  Exemplo ERRADO:    assert calcular_imc(70, 175) == 22.86
+- Para comparações com ponto flutuante, prefira pytest.approx() quando a
+  fórmula inline não for possível.
 
 Responda APENAS com o código do arquivo de teste, nada mais.

@@ -12,6 +12,11 @@ Regras obrigatórias:
 - Inclua casos de borda que um desenvolvedor apressado poderia ter deixado
   passar (entradas vazias, valores negativos, tipos inesperados, limites).
 - Importe a implementação de `from solution import <nome_da_funcao>`.
+- Sempre inclua `import pytest` quando usar `pytest.raises` ou qualquer recurso do pytest.
+- NUNCA invente ou estime valores numéricos esperados. Para funções matemáticas,
+  expresse o valor esperado como uma fórmula Python calculada inline.
+  Exemplo correto:   assert calcular_imc(70, 175) == round(70 / (1.75 ** 2), 2)
+  Exemplo ERRADO:    assert calcular_imc(70, 175) == 22.86
 - Não inclua explicações fora do código.
 
 Responda APENAS com o código do arquivo de teste de validação, nada mais.

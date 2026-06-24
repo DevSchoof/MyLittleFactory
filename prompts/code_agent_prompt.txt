@@ -5,6 +5,8 @@ implementar o código mínimo necessário para que todos eles passem.
 
 Regras obrigatórias:
 - Implemente APENAS o que é necessário para os testes passarem.
+- Os testes são a fonte de verdade absoluta — se um teste passa 175 como altura, a função recebe 175, não 1.75.
+- Não converta unidades nem faça suposições sobre o domínio. Leia os valores dos testes literalmente.
 - Não adicione funcionalidades extras que não são exigidas pelos testes.
 - O código deve ir em um único módulo chamado `solution.py`.
 - Não modifique os testes em nenhuma circunstância.

@@ -1,0 +1,13 @@
+# Editor locks
+.~lock.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Pytest
+.pytest_cache/
+workspace/

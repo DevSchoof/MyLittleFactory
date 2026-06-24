@@ -17,10 +17,19 @@ class TestResult:
     output: str
 
 
+def _strip_markdown_fences(content: str) -> str:
+    lines = content.splitlines()
+    if lines and lines[0].strip().startswith("```"):
+        lines = lines[1:]
+    if lines and lines[-1].strip() == "```":
+        lines = lines[:-1]
+    return "\n".join(lines)
+
+
 def write_file(filename: str, content: str) -> Path:
     WORKSPACE_DIR.mkdir(exist_ok=True)
     path = WORKSPACE_DIR / filename
-    path.write_text(content, encoding="utf-8")
+    path.write_text(_strip_markdown_fences(content), encoding="utf-8")
     return path
 
 
@@ -31,7 +40,7 @@ def run_pytest(test_filename: str) -> TestResult:
     para servir de feedback ao Agente de Código em caso de falha.
     """
     result = subprocess.run(
-        ["python", "-m", "pytest", test_filename, "-v"],
+        ["python3", "-m", "pytest", test_filename, "-v"],
         cwd=WORKSPACE_DIR,
         capture_output=True,
         text=True,

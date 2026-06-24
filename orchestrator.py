@@ -17,6 +17,7 @@ from enum import Enum, auto
 from agents import CodeAgent, TestAgent, ValidationAgent
 from cli import ask_approval
 from llm_client import LLMClient
+from run_logger import log_attempt, log_validation
 from test_runner import run_pytest, write_file
 
 MAX_CODE_ATTEMPTS = 3
@@ -71,6 +72,15 @@ class TDDOrchestrator:
             self.estado = Estado.EXECUTANDO_TESTE
             result = run_pytest(TEST_FILENAME)
 
+            log_attempt(
+                requisito=requirement,
+                tentativa=attempt,
+                codigo=implementation_code,
+                pytest_passou=result.passed,
+                motivo_falha=None if result.passed else result.output,
+                fase="GREEN",
+            )
+
             if result.passed:
                 break
 
@@ -95,6 +105,13 @@ class TDDOrchestrator:
         )
         write_file(VALIDATION_FILENAME, validation_test_code)
         validation_result = run_pytest(VALIDATION_FILENAME)
+
+        log_validation(
+            requisito=requirement,
+            codigo_final=implementation_code,
+            pytest_passou=validation_result.passed,
+            motivo_falha=None if validation_result.passed else validation_result.output,
+        )
 
         if validation_result.passed:
             print("Validação independente aprovada. Processo concluído.")

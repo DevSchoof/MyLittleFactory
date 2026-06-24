@@ -41,7 +41,8 @@ e a aprovação humana é um checkpoint obrigatório, não uma sugestão.
 | `orchestrator.py` | Máquina de estados que conecta tudo |
 | `main.py` | Ponto de entrada |
 | `prompts/` | System prompt de cada agente |
-| `workspace/` | Onde os arquivos de teste e implementação são gerados |
+| `run_logger.py` | Registra cada tentativa em `workspace/run_log.jsonl` |
+| `workspace/` | Onde os arquivos de teste, implementação e log são gerados |
 
 ## Como rodar
 
@@ -73,5 +74,3 @@ e a aprovação humana é um checkpoint obrigatório, não uma sugestão.
   sobrescreve a anterior — para projeto maior, vale versionar com git).
 - A aprovação humana é via terminal; uma evolução natural é uma interface
   web mostrando diff lado a lado.
-- Não há ainda log estruturado persistente das decisões — próximo passo
-  natural para rastreabilidade.

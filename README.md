@@ -53,12 +53,12 @@ e a aprovação humana é um checkpoint obrigatório, não uma sugestão.
 
 2. Instalar dependências:
    ```bash
-   pip install -r requirements.txt --break-system-packages
+   python3 -m pip install -r requirements.txt --break-system-packages
    ```
 
 3. Executar:
    ```bash
-   python main.py
+   python3 main.py
    ```
 
 4. Descrever o requisito quando solicitado, por exemplo:
@@ -67,7 +67,7 @@ e a aprovação humana é um checkpoint obrigatório, não uma sugestão.
    levantando ValueError se a lista estiver vazia.
    ```
 
-## Limitações conhecidas deste esqueleto
+## Limitações conhecidas
 
 - Só lida com uma função por vez (sem múltiplos arquivos/módulos).
 - Não tem rollback automático de código entre tentativas (cada tentativa

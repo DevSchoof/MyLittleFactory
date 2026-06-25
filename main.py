@@ -24,10 +24,12 @@ def main():
 
     requirement = input("\nDescreva o requisito da função a implementar:\n> ").strip()
 
-    orchestrator = TDDOrchestrator(language=language)
-    estado_final = orchestrator.run(requirement)
-
-    print(f"\nEstado final: {estado_final.name}")
+    try:
+        orchestrator = TDDOrchestrator(language=language)
+        estado_final = orchestrator.run(requirement)
+        print(f"\nEstado final: {estado_final.name}")
+    except RuntimeError as e:
+        print(f"\nErro: {e}")
 
 
 if __name__ == "__main__":

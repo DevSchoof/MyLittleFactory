@@ -70,6 +70,13 @@ def setup_workspace(language: str) -> None:
 
 
 def _setup_flutter_workspace() -> None:
+    import shutil
+    if not shutil.which("flutter"):
+        raise RuntimeError(
+            "Flutter SDK não encontrado. Instale o SDK e adicione 'flutter' ao PATH.\n"
+            "Consulte: https://docs.flutter.dev/get-started/install"
+        )
+
     flutter_project = WORKSPACE_DIR / "flutter_project"
     if flutter_project.exists():
         return

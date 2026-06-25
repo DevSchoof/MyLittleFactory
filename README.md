@@ -74,3 +74,13 @@ e a aprovação humana é um checkpoint obrigatório, não uma sugestão.
   sobrescreve a anterior — para projeto maior, vale versionar com git).
 - A aprovação humana é via terminal; uma evolução natural é uma interface
   web mostrando diff lado a lado.
+
+## Roadmap
+
+| Etapa | Descrição | Branch |
+|---|---|---|
+| 1 | Executor polimórfico (Python + Flutter) | `feature/executor-polimorfico` |
+| 2 | Múltiplos arquivos e módulos | `feature/multiplos-arquivos` |
+| 3 | Suporte Flutter completo | `feature/flutter` |
+
+Previsão de conclusão: **18 de julho de 2026**. Detalhes em [ROADMAP.md](ROADMAP.md).

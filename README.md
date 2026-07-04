@@ -67,6 +67,35 @@ e a aprovação humana é um checkpoint obrigatório, não uma sugestão.
    levantando ValueError se a lista estiver vazia.
    ```
 
+## Demo
+
+Ciclo completo usando o exemplo da calculadora de média.
+
+**Início — escolha de linguagem e entrada do requisito**
+
+![Tela inicial](docs/images/Inicio.png)
+![Entrada do requisito](docs/images/Funcao.png)
+
+**Fase RED — Agente de Testes gera os testes e aguarda aprovação humana**
+
+![Fase RED](docs/images/fase_red_testes.png)
+
+**Fase GREEN — Agente de Código implementa a solução e aguarda aprovação**
+
+![Fase GREEN](docs/images/fase_green_codigo.png)
+
+**Fase de Validação — Agente independente aprova o ciclo completo**
+
+![Fase Validação](docs/images/fase_validacao.png)
+
+**Exportação dos arquivos gerados**
+
+![Exportação](docs/images/validacao_exportacao.png)
+
+**Estado final: CONCLUIDO**
+
+![Conclusão](docs/images/conclusao.png)
+
 ## Limitações conhecidas
 
 - Só lida com uma função por vez (sem múltiplos arquivos/módulos).
@@ -74,3 +103,13 @@ e a aprovação humana é um checkpoint obrigatório, não uma sugestão.
   sobrescreve a anterior — para projeto maior, vale versionar com git).
 - A aprovação humana é via terminal; uma evolução natural é uma interface
   web mostrando diff lado a lado.
+
+## Roadmap
+
+| Etapa | Descrição | Branch |
+|---|---|---|
+| 1 | Executor polimórfico (Python + Flutter) | `feature/executor-polimorfico` |
+| 2 | Múltiplos arquivos e módulos | `feature/multiplos-arquivos` |
+| 3 | Suporte Flutter completo | `feature/flutter` |
+
+Previsão de conclusão: **18 de julho de 2026**. Detalhes em [ROADMAP.md](ROADMAP.md).

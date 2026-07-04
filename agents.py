@@ -4,6 +4,9 @@ específica de montar a mensagem do usuário a partir do estado atual
 do processo. Isso mantém os três papéis isolados — importante para que
 o Agente de Validação não "veja" o que os outros dois fizeram além do
 que é explicitamente passado para ele.
+
+Prompts são carregados por linguagem: tenta `<agente>_<linguagem>_prompt.txt`
+e cai no genérico `<agente>_prompt.txt` se não existir.
 """
 
 from pathlib import Path
@@ -13,16 +16,20 @@ from llm_client import LLMClient
 PROMPTS_DIR = Path(__file__).parent / "prompts"
 
 
-def _load_prompt(filename: str) -> str:
-    return (PROMPTS_DIR / filename).read_text(encoding="utf-8")
+def _load_prompt(agent: str, language: str) -> str:
+    specific = PROMPTS_DIR / f"{agent}_{language}_prompt.txt"
+    if specific.exists():
+        return specific.read_text(encoding="utf-8")
+    return (PROMPTS_DIR / f"{agent}_prompt.txt").read_text(encoding="utf-8")
 
 
 class TestAgent:
     """Fase RED: gera testes a partir do requisito em linguagem natural."""
 
-    def __init__(self, llm_client: LLMClient):
+    def __init__(self, llm_client: LLMClient, language: str = "python"):
         self.llm_client = llm_client
-        self.system_prompt = _load_prompt("test_agent_prompt.txt")
+        self.language = language
+        self.system_prompt = _load_prompt("test_agent", language)
 
     def generate_tests(self, requirement: str) -> str:
         return self.llm_client.chat(self.system_prompt, requirement)
@@ -31,9 +38,10 @@ class TestAgent:
 class CodeAgent:
     """Fase GREEN: implementa código até os testes passarem."""
 
-    def __init__(self, llm_client: LLMClient):
+    def __init__(self, llm_client: LLMClient, language: str = "python"):
         self.llm_client = llm_client
-        self.system_prompt = _load_prompt("code_agent_prompt.txt")
+        self.language = language
+        self.system_prompt = _load_prompt("code_agent", language)
 
     def generate_implementation(self, test_code: str, feedback: str | None = None) -> str:
         message = f"Testes a satisfazer:\n\n{test_code}"
@@ -49,9 +57,10 @@ class ValidationAgent:
     nunca os testes que guiaram o desenvolvimento.
     """
 
-    def __init__(self, llm_client: LLMClient):
+    def __init__(self, llm_client: LLMClient, language: str = "python"):
         self.llm_client = llm_client
-        self.system_prompt = _load_prompt("validation_agent_prompt.txt")
+        self.language = language
+        self.system_prompt = _load_prompt("validation_agent", language)
 
     def generate_validation_tests(self, requirement: str, implementation_code: str) -> str:
         message = (

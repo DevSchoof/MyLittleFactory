@@ -23,7 +23,7 @@ Humano define requisito
     -> Agente de Código (GREEN)      implementa até passar nos testes reais (pytest)
     -> [aprovação humana]
     -> Agente de Validação           cria testes NOVOS e independentes
-    -> se reprovar, volta para o Agente de Código com o motivo da falha
+    -> se reprovar, processo é encerrado (sem retry automático nesta fase)
 ```
 
 Nenhuma transição de fase é decidida pela opinião do modelo — a fase
@@ -74,6 +74,7 @@ Ciclo completo usando o exemplo da calculadora de média.
 **Início — escolha de linguagem e entrada do requisito**
 
 ![Tela inicial](docs/images/Inicio.png)
+
 ![Entrada do requisito](docs/images/Funcao.png)
 
 **Fase RED — Agente de Testes gera os testes e aguarda aprovação humana**
